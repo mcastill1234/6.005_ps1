@@ -33,7 +33,7 @@ public class ExtractTest {
     private static final Tweet tweet3 = new Tweet(3, "bbitdiddle", "rivest@gmail.com talk in 30 minutes #hype", d3);
     private static final Tweet tweet4 = new Tweet(4, "bbitdiddle", "rivest talk in 30 minutes #hype", d4);
     private static final Tweet tweet5 = new Tweet(5, "bbitdiddle", "@ri%$#vest talk in 30 minutes #hype", d4);
-    private static final Tweet tweet6 = new Tweet(5, "bbitdiddle", "@rivest talk in 30 minutes @RivEsT", d4);
+    private static final Tweet tweet6 = new Tweet(6, "bbitdiddle", "@riv-est talk in 30 minutes @Riv-EsT", d4);
 
     
     @Test(expected=AssertionError.class)
@@ -100,9 +100,9 @@ public class ExtractTest {
 
     @Test
     public void testGetMentionedUsersMoreUsers() {
-        Set<String> mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet1, tweet2, tweet3, tweet4));
+        Set<String> mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet1, tweet2, tweet3, tweet4, tweet6));
 
-        assertThat(mentionedUsers, hasItems("@rivest", "@hype"));
+        assertThat(mentionedUsers, hasItems("@rivest", "@hype", "@riv-est"));
     }
 
     @Test

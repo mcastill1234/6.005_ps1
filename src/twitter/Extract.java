@@ -65,7 +65,7 @@ public class Extract {
     public static Set<String> getMentionedUsers(List<Tweet> tweets) {
 
         Set<String> mentionedUsers = new HashSet<>();
-        Pattern pattern = Pattern.compile("[^A-Za-z0-9_]");
+        Pattern pattern = Pattern.compile("[^-A-Za-z0-9_]");
 
         for (Tweet tweet : tweets) {
             String[] words = tweet.getText().split(" ");
