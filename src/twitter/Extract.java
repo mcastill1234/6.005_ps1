@@ -23,6 +23,8 @@ public class Extract {
      *            list of tweets with distinct ids, not modified by this method.
      * @return a minimum-length time interval that contains the timestamp of
      *         every tweet in the list.
+     *
+     * O(n) for n = size of tweet list.
      */
     public static Timespan getTimespan(List<Tweet> tweets) {
 
@@ -61,6 +63,8 @@ public class Extract {
      *         contain a mention of the username mit.
      *         Twitter usernames are case-insensitive, and the returned set may
      *         include a username at most once.
+     *
+     *  O(n*l) for n = size of tweet list and l = words in tweet text * O(matcher)
      */
     public static Set<String> getMentionedUsers(List<Tweet> tweets) {
 
