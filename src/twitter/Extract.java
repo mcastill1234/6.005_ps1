@@ -74,6 +74,9 @@ public class Extract {
         for (Tweet tweet : tweets) {
             String[] words = tweet.getText().split(" ");
             for (String word : words) {
+                if (word.isEmpty()) {
+                    continue;
+                }
                 String subWord = word.substring(1);
                 Matcher matcher = pattern.matcher(subWord);
                 if (matcher.find()) {

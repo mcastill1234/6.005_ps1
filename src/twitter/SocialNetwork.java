@@ -3,9 +3,9 @@
  */
 package twitter;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import jdk.nashorn.api.tree.ForLoopTree;
+
+import java.util.*;
 
 /**
  * SocialNetwork provides methods that operate on a social network.
@@ -41,7 +41,24 @@ public class SocialNetwork {
      *         either authors or @-mentions in the list of tweets.
      */
     public static Map<String, Set<String>> guessFollowsGraph(List<Tweet> tweets) {
-        throw new RuntimeException("not implemented");
+
+        Map<String, Set<String>> socialNet = new HashMap<>();
+
+        Set<String> userSet = new HashSet<>();
+
+        for (Tweet tweet : tweets) {
+            if (!userSet.contains(tweet.getAuthor())) {
+                userSet.add(tweet.getAuthor());
+            }
+        }
+
+        for (String autor : userSet) {
+            List<Tweet> userTweets = Filter.writtenBy(tweets, autor);
+            Set<String> followedByUser = Extract.getMentionedUsers(userTweets);
+            socialNet.put(autor, followedByUser);
+        }
+
+        return socialNet;
     }
 
     /**
@@ -54,7 +71,37 @@ public class SocialNetwork {
      *         descending order of follower count.
      */
     public static List<String> influencers(Map<String, Set<String>> followsGraph) {
-        throw new RuntimeException("not implemented");
+
+        Map<String, Integer> influencersMap = new HashMap<>();
+
+        for (String authors : followsGraph.keySet()) {
+            influencersMap.put(authors, followsGraph.get(authors).size());
+        }
+
+        List<String> influencerList = new ArrayList<>(influencersMap.keySet());
+        List<Integer> numFollowers = new ArrayList<>(influencersMap.values());
+
+        int n = numFollowers.size();
+
+        for (int i=0; i < n-1; i++) {
+            int min_idx = i;
+            for (int j = i+1; j < n; j++) {
+                if (numFollowers.get(j) < numFollowers.get(min_idx)) {
+                    min_idx = j;
+                }
+                int tempNumFollower = numFollowers.get(min_idx);
+                String tempAuthor = influencerList.get(min_idx);
+
+                numFollowers.set(min_idx, numFollowers.get(i));
+                numFollowers.set(i, tempNumFollower);
+                influencerList.set(min_idx, influencerList.get(i));
+                influencerList.set(i, tempAuthor);
+            }
+        }
+
+        Collections.reverse(influencerList);
+
+        return influencerList;
     }
 
 }

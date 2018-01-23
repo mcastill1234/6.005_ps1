@@ -29,7 +29,7 @@ public class Filter {
      */
     public static List<Tweet> writtenBy(List<Tweet> tweets, String username) {
 
-        List<Tweet> autorTweets = new ArrayList<Tweet>();
+        List<Tweet> autorTweets = new ArrayList<>();
 
         for (Tweet tweet : tweets) {
             if (tweet.getAuthor() == username) {
@@ -81,7 +81,7 @@ public class Filter {
      */
     public static List<Tweet> containing(List<Tweet> tweets, List<String> words) {
 
-        List<Tweet> containingTweets = new ArrayList<Tweet>();
+        List<Tweet> containingTweets = new ArrayList<>();
 
         for (Tweet tweet : tweets) {
             for (String word : words) {
