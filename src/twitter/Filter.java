@@ -6,6 +6,8 @@ package twitter;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.*;
+
 /**
  * Filter consists of methods that filter a list of tweets for those matching a
  * condition.
@@ -29,10 +31,12 @@ public class Filter {
      */
     public static List<Tweet> writtenBy(List<Tweet> tweets, String username) {
 
+        assertFalse(tweets.isEmpty());
+
         List<Tweet> autorTweets = new ArrayList<>();
 
         for (Tweet tweet : tweets) {
-            if (tweet.getAuthor() == username) {
+            if (tweet.getAuthor().toLowerCase().equals(username.toLowerCase())) {
                 autorTweets.add(tweet);
             }
         }
@@ -52,7 +56,7 @@ public class Filter {
      */
     public static List<Tweet> inTimespan(List<Tweet> tweets, Timespan timespan) {
 
-        List<Tweet> timespanTweets = new ArrayList<Tweet>();
+        List<Tweet> timespanTweets = new ArrayList<>();
 
         for (Tweet tweet : tweets) {
             if (tweet.getTimestamp().isBefore(timespan.getEnd()) &&

@@ -74,20 +74,15 @@ public class Extract {
         for (Tweet tweet : tweets) {
             String[] words = tweet.getText().split(" ");
             for (String word : words) {
-                if (word.isEmpty()) {
-                    continue;
-                }
+                if (word.isEmpty()) { continue; }
                 String subWord = word.substring(1);
                 Matcher matcher = pattern.matcher(subWord);
-                if (matcher.find()) {
-                    continue;
-                }
+                if (matcher.find()) { continue; }
                 if (word.charAt(0) == '@') {
                     mentionedUsers.add(word.toLowerCase());
                 }
             }
         }
-
         return mentionedUsers;
     }
 

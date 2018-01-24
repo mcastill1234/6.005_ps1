@@ -21,15 +21,26 @@ public class FilterTest {
     
     private static final Instant d1 = Instant.parse("2016-02-17T10:00:00Z");
     private static final Instant d2 = Instant.parse("2016-02-17T11:00:00Z");
+    private static final Instant d3 = Instant.parse("1968-02-17T08:00:00Z");
+    private static final Instant d4 = Instant.parse("2016-02-17T15:00:00Z");
     
     private static final Tweet tweet1 = new Tweet(1, "alyssa", "is it reasonable to talk about rivest so much?", d1);
     private static final Tweet tweet2 = new Tweet(2, "bbitdiddle", "rivest talk in 30 minutes #hype", d2);
-    
+    private static final Tweet tweet3 = new Tweet(3, "AlYssA", "rivest@gmail.com talk in 30 minutes #hype", d3);
+    private static final Tweet tweet4 = new Tweet(4, "bbitdiddle", "rivest talk in 30 minutes #hype", d4);
+
     @Test(expected=AssertionError.class)
     public void testAssertionsEnabled() {
         assert false; // make sure assertions are enabled with VM argument: -ea
     }
-    
+
+
+    /*
+     * Tests for writtenBy method:
+     * 1. Multiple tweets single result.
+     * 2. Multiple tweets, multple results, same user lower/upper cased.
+     */
+
     @Test
     public void testWrittenByMultipleTweetsSingleResult() {
         List<Tweet> writtenBy = Filter.writtenBy(Arrays.asList(tweet1, tweet2), "alyssa");
@@ -37,6 +48,18 @@ public class FilterTest {
         assertEquals("expected singleton list", 1, writtenBy.size());
         assertTrue("expected list to contain tweet", writtenBy.contains(tweet1));
     }
+
+    @Test
+    public void testWrittenBySameUserLowerUpperCased() {
+        List<Tweet> writtenBy = Filter.writtenBy(Arrays.asList(tweet1, tweet2, tweet3), "alyssa");
+
+        assertEquals("expected list with two tweets", 2, writtenBy.size());
+    }
+
+    /*
+     * Tests for inTimespan:
+     *
+     */
     
     @Test
     public void testInTimespanMultipleTweetsMultipleResults() {
@@ -49,6 +72,8 @@ public class FilterTest {
         assertTrue("expected list to contain tweets", inTimespan.containsAll(Arrays.asList(tweet1, tweet2)));
         assertEquals("expected same order", 0, inTimespan.indexOf(tweet1));
     }
+
+
     
     @Test
     public void testContaining() {
